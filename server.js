@@ -1,6 +1,5 @@
 (() => {
   /* eslint no-console: 0 */
-  'use strict';
   const path = require('path');
   const express = require('express');
   const webpack = require('webpack');
