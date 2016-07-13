@@ -8,7 +8,7 @@ import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 
 import languages from '../../data/languages.json';
-import geocodes from '../../data/goecodes.json';
+import geocodes from '../../data/geocodes.json';
 import styles from '../../App.css';
 import PublicActions from '../../actions/PublicActions';
 import PublicStore from '../../stores/PublicStore';
