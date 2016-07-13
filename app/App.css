@@ -44,6 +44,10 @@ a:visited {
   padding: 10px 0;
 }
 
+.padding10 {
+  padding: 10px;
+}
+
 .buttonContainer {
   height: 60px;
   display: block;
@@ -64,6 +68,17 @@ a:visited {
 .inlineBlock {
   display: inline-block;
   vertical-align: top;
+}
+
+.inlineContainer {
+  vertical-align: middle;
+  display: inline-block;
+  height: 50px;
+  padding:10px;
+}
+
+.marginTop20 {
+  padding: 40px 0 0 0;
 }
 
 .pointer {
