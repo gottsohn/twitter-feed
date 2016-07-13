@@ -23,6 +23,7 @@ class PublicActions {
     return true;
   }
 
+
   title(title) {
     return title;
   }
