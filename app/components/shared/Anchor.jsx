@@ -9,7 +9,6 @@ export default class Anchor extends React.Component {
   render() {
     return (
       <a
-          className={underline}
           href={this.props.href}
           target={this.props.target || '_blank'}
       >
@@ -21,6 +20,9 @@ export default class Anchor extends React.Component {
 
 Anchor.propTypes = {
   href: React.PropTypes.string.isRequired,
-  label: React.PropTypes.string.isRequired,
+  label: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.element
+  ]),
   target: React.PropTypes.string
 };
