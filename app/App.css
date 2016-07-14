@@ -1,10 +1,90 @@
-.app {
-  background-color: green;
-  height: 50px;
-  border: 1px solid blue;
+body {
+    font: 400 1em Raleway, Roboto, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    color: #555;
 }
 
-.bap {
-  background-color: red;
-  height: 25px;
+.container {
+    padding: 20px;
+}
+
+.fullHeight{
+    min-height: 100%;
+}
+
+.margin20 {
+  margin: 0 20px;
+}
+
+h1,
+h2,
+h3 {
+    margin: 7px 0;
+}
+
+h4,
+h5,
+h6 {
+  margin: 2px 0;
+}
+
+
+a {
+    text-decoration: none;
+    color: #00bcd4;
+}
+
+a:visited {
+  color: #00bcdf;
+}
+
+.paddingTop {
+  padding: 10px 0;
+}
+
+.padding10 {
+  padding: 10px;
+}
+
+.buttonContainer {
+  height: 60px;
+  display: block;
+  overflow: hidden;
+}
+
+.largeText {
+  font-size: 2em;
+}
+
+.largerText {
+  font-size: 3.5em;
+}
+.center {
+  text-align: center;
+}
+
+.inlineBlock {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.inlineContainer {
+  vertical-align: middle;
+  display: inline-block;
+  height: 50px;
+  padding:10px;
+}
+
+.marginTop20 {
+  padding: 40px 0 0 0;
+}
+
+.pointer {
+  cursor: pointer;
+}
+footer {
+  text-align: center;
+  padding:20px;
 }
