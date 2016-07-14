@@ -7,6 +7,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
+import CircularProgress from 'material-ui/CircularProgress';
 import SearchIcon from 'material-ui/svg-icons/action/search';
 
 import languages from '../../data/languages.json';
@@ -16,11 +17,11 @@ import PublicActions from '../../actions/PublicActions';
 import PublicStore from '../../stores/PublicStore';
 import SearchActions from '../../actions/SearchActions';
 import SearchStore from '../../stores/SearchStore';
+import Tweet from '../shared/Tweet.jsx';
 
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
-
     // Set binders to use class instance
     this.getStoreData = this.getStoreData.bind(this);
     this.getSearchData = this.getSearchData.bind(this);
@@ -56,9 +57,11 @@ export default class Home extends React.Component {
 
   componentDidMount() {
     PublicActions.setTitle('Home');
-    this.handleDialogClose();
     PublicStore.listen(this.getStoreData);
     SearchStore.listen(this.getSearchData);
+    PublicActions.getSettings();
+    this.handleDialogClose();
+    setTimeout(this.handleSearch, 1000);
   }
 
   renderSearch(type) {
@@ -77,7 +80,7 @@ export default class Home extends React.Component {
     PublicActions.setDialogOpened(true);
   }
 
-  getStoreData({dialogOpened, settings, text}) {
+  getStoreData({dialogOpened, settings}) {
     let geolocationIndex = -1;
     geocodes.forEach((geocode, i) => {
       if (geocode.lng === settings.geocode.lng &&
@@ -89,7 +92,7 @@ export default class Home extends React.Component {
     this.setState({
       dialogOpened,
       geolocationIndex,
-      text,
+      text: settings.text,
       geocode: settings.geocode,
       language: settings.language
     });
@@ -175,13 +178,24 @@ export default class Home extends React.Component {
     });
   }
 
-  handleSearch() {
+  handleSearch(e) {
     const {geocode, text, language} = this.state;
-    SearchActions.search({
-      geocode,
-      language,
-      text
-    });
+    if (text) {
+      this.handleSaveSettings();
+      this.setState({
+        tweets: null
+      });
+
+      SearchActions.search({
+        geocode,
+        language,
+        text
+      });
+    }
+
+    if(e && e.preventDefault) {
+        e.preventDefault();
+    }
   }
 
   renderDialog() {
@@ -202,11 +216,12 @@ export default class Home extends React.Component {
       />
     ];
 
+    // Render Settings Dialog
     return (
       <Dialog
           actions={actions}
           autoScrollBodyContent
-          modal={false}
+          modal
           onRequestClose={this.handleClose}
           open={this.state.dialogOpened}
           title="Query Settings"
@@ -215,7 +230,7 @@ export default class Home extends React.Component {
           <div>
           <div className={styles.inlineBlock}>
             <h2>
-              <i className={classnames('fa', 'fa-1x', 'fa-globe')}></i>
+              <i className={classnames('fa', 'fa-globe')}></i>
               <span> Set Geolocation</span>
             </h2>
             <SelectField
@@ -240,7 +255,6 @@ export default class Home extends React.Component {
                 }
                 floatingLabelText="Latitude"
                 hintText="Type a name"
-                name="lat"
                 onChange={this.handleLatKeyUp}
                 value={this.state.geocode.lat}
             />
@@ -251,7 +265,6 @@ export default class Home extends React.Component {
                 }
                 floatingLabelText="Longitude"
                 hintText="Type a Longitude"
-                name="lng"
                 onChange={this.handleLngKeyUp}
                 type="number"
                 value={this.state.geocode.lng}
@@ -263,7 +276,6 @@ export default class Home extends React.Component {
                 }
                 floatingLabelText="Radius (in Km)"
                 hintText="Type a Latitude"
-                name="radius"
                 onChange={this.handleRadiusKeyUp}
                 type="number"
                 value={this.state.geocode.radius}
@@ -306,24 +318,68 @@ export default class Home extends React.Component {
     );
   }
 
+  renderTweets(status, index) {
+    return (
+      <Tweet key={index} status={status}/>
+    );
+  }
+
   render() {
     return(
       <div>
-        <div className={styles.center}>
+        <div>
           <h1>Welcome to Twitter Feed</h1>
-          <p><small>Set your query settings <a onTouchTap={this.handleShowSettings}><i className={classnames('fa', 'fa-wrench')}></i> here</a> to customize your wall.</small></p>
+          <p>
+            <small><span>Set your query settings </span>
+            <a onTouchTap={this.handleShowSettings}>
+              <i className={classnames('fa', 'fa-wrench')}></i> here
+            </a>
+            <span> to customize your wall.</span></small>
+          </p>
           <div>
-            <div className={classnames(styles.inlineContainer)}>
-              <TextField
-                  errorText={this.state.text ? '': 'This field is required'}
-                  floatingLabelText="Search"
-                  hintText="Type a Search String"
-                  onChange={this.handleSearchChanged}
-                  value={this.state.text}
-              />
-            </div>
-            <div className={classnames(styles.inlineContainer, styles.marginTop20)}>
-              <IconButton className={styles.valignBottom} onTouchTap={this.handleSearch}><SearchIcon /></IconButton>
+            <form action="#" onSubmit={this.handleSearch}>
+              <div className={classnames(styles.inlineContainer)}>
+                <TextField
+                    errorText={
+                      this.state.text ? '': 'This field is required'
+                    }
+                    floatingLabelText="Search"
+                    hintText="Type a Search String"
+                    onChange={this.handleSearchChanged}
+                    value={this.state.text}
+                />
+              </div>
+              <div
+                  className={
+                    classnames(styles.inlineContainer, styles.marginTop20)
+                  }
+              >
+                <IconButton
+                    className={styles.valignBottom}
+                    disabled={!this.state.text}
+                    onTouchTap={this.handleSearch}
+                >
+                  <SearchIcon />
+                </IconButton>
+              </div>
+            </form>
+            <h3>Tweets</h3>
+            <div>
+              {
+                this.state.tweets ?
+                  (
+                    this.state.tweets.statuses.length === 0 ?
+                      <h2 className={styles.colorWarn}>
+                        <i className={classnames('fa', 'fa-warning')}></i>
+                        <span> No tweets available</span>
+                      </h2>
+                    :
+                    this.state.tweets.statuses.map(this.renderTweets))
+                : <CircularProgress />
+              }
+              {
+
+              }
             </div>
           </div>
           {this.renderDialog()}
