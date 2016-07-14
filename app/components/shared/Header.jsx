@@ -10,12 +10,14 @@ import NavigationHome from 'material-ui/svg-icons/action/home';
 import Divider from 'material-ui/Divider';
 
 import PublicStore from '../../stores/PublicStore';
+import PublicActions from '../../actions/PublicActions';
 import styles from '../../App.css';
 
 export default class Header extends React.Component {
   constructor(props) {
     super(props);
     this.setTitle = this.setTitle.bind(this);
+    this.handleShowSettings = this.handleShowSettings.bind(this);
     this.state = {
       title: ''
     };
@@ -30,7 +32,7 @@ export default class Header extends React.Component {
   }
 
   handleShowSettings() {
-    PublicStore.setDialogOpened(true);
+    PublicActions.setDialogOpened(true);
   }
 
   setTitle(state) {
