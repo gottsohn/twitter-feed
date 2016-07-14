@@ -2,16 +2,16 @@
     "id": "NGA",
     "name": "Nigeria",
     "geocode": {
-        "lat": "51.1657",
-        "lng": "10.4515",
-        "radius": "1000"
+      "lat": "9.0820",
+      "lng": "8.6753",
+      "radius": "1000"
     }
 }, {
     "id": "DEU",
     "name": "Germany",
     "geocode": {
-        "lat": "9.0820",
-        "lng": "8.6753",
+        "lat": "51.1657",
+        "lng": "10.4515",
         "radius": "1000"
     }
 }, {

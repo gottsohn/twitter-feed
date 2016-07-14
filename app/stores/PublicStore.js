@@ -13,15 +13,9 @@ class PublicStore {
             radius: 1000
           },
           language: 'en',
-          text: ''
+          text: 'Suitepad'
         }
       };
-
-      const savedSettings =
-        window.localStorage.getItem('settings');
-
-      this.state.settings = window.JSON.parse(savedSettings) ||
-        this.state.settings;
 
       this.bindListeners({
         settings: PublicActions.settings,
@@ -37,6 +31,7 @@ class PublicStore {
     }
 
     settings(settings) {
+      settings = settings || this.state.settings;
       this.setState({
         settings
       });
