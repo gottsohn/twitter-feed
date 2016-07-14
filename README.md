@@ -1,6 +1,7 @@
 # Twitter Feed
 A brief Twitter Feed hack with ReactJS.
 
+[![Build Status](https://semaphoreci.com/api/v1/godson/twitter-feed/branches/develop/shields_badge.svg)](https://semaphoreci.com/godson/twitter-feed)
 [![Javascript Version][javascript-image]][javascript-url]
 [![React Version][reactjs-image]][reactjs-url]
 [![Material UI Version][material-ui-image]][material-ui-url]
@@ -26,15 +27,6 @@ or just export the files:
 
 ### React by default
 The project runs with React by default and hot replacement of changes to the modules. Currently it is on 15.2.1
-
-### CSS Modules
-CSS files loaded into components are locally scoped and you can point to class names with javascript. You can also compose classes together, also from other files. These are also hot loaded.
-
-To turn off CSS Modules remove it from the `webpack.config.js` file.
-
-### Babel and Linting
-Both Node server and frontend code runs with Babel. And all of it is linted. With atom you install the `linter` package, then `linter-eslint` and `linter-jscs`. You are covered. Also run `npm run eslint` or `npm run jscs` to verify all files. I would recommend installing `language-babel` package too for syntax highlighting
-
 
 [javascript-image]:https://img.shields.io/badge/Javascript-ES6-yellow.svg
 [javascript-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
