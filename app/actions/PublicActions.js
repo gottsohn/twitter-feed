@@ -23,6 +23,11 @@ class PublicActions {
     return true;
   }
 
+  getSettings() {
+    const settings = JSON.parse(window.localStorage.getItem('settings'));
+    this.settings(settings);
+    return true;
+  }
 
   title(title) {
     return title;
